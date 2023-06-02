@@ -2,11 +2,11 @@ Player = Class {}
 
 function Player:init()
     self.image = love.graphics.newImage('cat.png')
-    self.widtj = self.image.getWidth()
+    self.width = self.image:getWidth()
     self.height = self.image:getHeight()
 
-    self.x = VIRTUAL_WIDTH / 2 - (self.width /2)
-    self.y = 100 - self.height
+    self.x =  0 +  (self.width /2)
+    self.y = VIRTUAL_HEIGHT - self.height
 
     self.dy = 0
 end
@@ -15,6 +15,7 @@ function Player:update(dt)
 
     if love.keyboard.wasPressed('space') then
         self.dy = -5
+        sounds['jump']:play()
     end
 
     if not self.y == 100 - self.height then

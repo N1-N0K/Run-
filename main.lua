@@ -17,9 +17,9 @@ WINDOW_HEIGHT = 720
 VIRTUAL_WIDTH  = 512
 VIRTUAL_HEIGHT = 288
 
-local background = love.graphics.newImage('background.jpg')
+local background = love.graphics.newImage('backgroundloop-01.jpg')
 local background_scroll = 0
-local LOOPING_POINT = 794 - 512
+local LOOPING_POINT =  1398 - 517
 local BACKGROUND_SCROLL_SPEED = 50
 
 
@@ -29,12 +29,10 @@ function love.load()
 
     print("shows in terminal")
 
-    debug.debug("debug")
-
     love.graphics.setDefaultFilter('nearest', 'nearest')
     love.window.setTitle('Run!')
 
-    Big_font = love.graphics.newFont('font.ttf', 36)
+    big_font = love.graphics.newFont('font.ttf', 36)
     score_font = love.graphics.newFont('font.ttf', 18)
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -65,9 +63,10 @@ end
 function love.update(dt)
     background_scroll = (background_scroll + BACKGROUND_SCROLL_SPEED * dt) % LOOPING_POINT
 
+    stateMachine:update(dt)
+
     love.keyboard.keysPressed = {}
 
-    stateMachine:update(dt)
 end
 
 function love.keypressed(key)
@@ -88,18 +87,21 @@ function love.keyboard.wasPressed(key)
     end
 end
 
-
-function love.resize(w, h)
-    push:resize(w, h)
-end
-
-
 function love.draw()
     push:start()
 
      love.graphics.draw(background, -background_scroll, 0)
 
      stateMachine:render()
+
+     --diaplayFPS()
      
     push:finish()
+end
+
+function displayFPS()
+    love.graphics.setFont(score_font)
+    love.graphics.setColor(0/255, 255/255, 0/255, 255/255)
+    love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 50, 10)
+    love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
 end
