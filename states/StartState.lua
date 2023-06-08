@@ -11,6 +11,6 @@ function StartState:update(dt)
 end
 
 function StartState:render()
-    love.graphics.setFont(Big_font)
+    love.graphics.setFont(big_font)
     love.graphics.printf('Press enter', 0, 64, VIRTUAL_WIDTH, 'center')
 end

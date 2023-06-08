@@ -23,12 +23,16 @@ local LOOPING_POINT =  1398 - 517
 local BACKGROUND_SCROLL_SPEED = 50
 
 
-function love.load()
+function love.load(arg)
+    if arg[#arg] == '-debug' then require('mobdebug').start() end
+    
+    io.stdout:setvbuf("no")
+    
+    print('debug')
 
     math.randomseed(os.time())
 
-    print("shows in terminal")
-
+    
     love.graphics.setDefaultFilter('nearest', 'nearest')
     love.window.setTitle('Run!')
 
@@ -44,7 +48,7 @@ function love.load()
     stateMachine = StateMachine {
         ['start'] = function() return StartState() end,
         ['play'] = function() return PlayState() end,
-        ['lost'] = function() return lostState() end,
+        ['lost'] = function() return LostState() end,
     }
 
     Sounds = {
@@ -94,7 +98,7 @@ function love.draw()
 
      stateMachine:render()
 
-     --diaplayFPS()
+     displayFPS()
      
     push:finish()
 end
@@ -102,6 +106,6 @@ end
 function displayFPS()
     love.graphics.setFont(score_font)
     love.graphics.setColor(0/255, 255/255, 0/255, 255/255)
-    love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 50, 10)
+    love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 10, 30)
     love.graphics.setColor(255/255, 255/255, 255/255, 255/255)
 end

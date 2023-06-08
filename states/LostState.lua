@@ -5,8 +5,8 @@ function LostState:enter(params)
 end
 
 function LostState:update(dt)
-    if love.keyboard.wasPressed('enter') or love.keyaboard.wasPressed('return') then
-        StataeMachine:change('start')
+    if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        stataeMachine:change('start')
     end
 end
 
