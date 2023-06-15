@@ -2,14 +2,14 @@ push = require 'push'
 Class = require 'class'
 
 require 'Player'
-require 'Obsticle'
+require 'Obstacle'
 
 require 'StateMachine'
 
 require 'states/BaseState'
 require 'states/StartState'
 require 'states/PlayState'
-require 'states/LostState'
+require 'states/LoseState'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -24,11 +24,12 @@ local BACKGROUND_SCROLL_SPEED = 50
 
 
 function love.load(arg)
+    
     if arg[#arg] == '-debug' then require('mobdebug').start() end
     
     io.stdout:setvbuf("no")
     
-    print('debug')
+  
 
     math.randomseed(os.time())
 
@@ -48,11 +49,11 @@ function love.load(arg)
     stateMachine = StateMachine {
         ['start'] = function() return StartState() end,
         ['play'] = function() return PlayState() end,
-        ['lost'] = function() return LostState() end,
+        ['lose'] = function() return LoseState() end,
     }
 
-    Sounds = {
-        ['lost'] = love.audio.newSource('lost.mp3', 'static'),
+    sounds = {
+        ['lose'] = love.audio.newSource('lost.mp3', 'static'),
         ['jump'] = love.audio.newSource('jump.wav', 'static'),
         ['score'] = love.audio.newSource('score.wav', 'static')
     }
@@ -80,8 +81,6 @@ function love.keypressed(key)
         love.event.quit()
     end
 end
-
-
 
 function love.keyboard.wasPressed(key)
     if love.keyboard.keysPressed[key] then
